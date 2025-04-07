@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @SpringBootApplication
 public class FastcampusProjectAdminApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FastcampusProjectAdminApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FastcampusProjectAdminApplication.class, args);
+    }
 
 }
