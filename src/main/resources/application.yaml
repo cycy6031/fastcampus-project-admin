@@ -10,10 +10,12 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/board
-    username: root #uno
-    password: 1234 #thisisTestpw!#%&
+    url: jdbc:mysql://localhost:3306/admin
+    username: bomi #root #uno
+    password: 1234 #1234 #thisisTestpw!#%&
     driverClassName: com.mysql.cj.jdbc.Driver
+    #create user 'bomi'@'localhost' identified by '1234';
+    #GRANT ALL PRIVILEGES ON admin.* TO 'bomi'@'localhost';
   jpa:
     defer-datasource-initialization: true
     hibernate.ddl-auto: create

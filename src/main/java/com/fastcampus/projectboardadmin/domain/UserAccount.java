@@ -10,6 +10,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import lombok.Getter;
@@ -64,7 +65,7 @@ public class UserAccount extends AuditingField {
         this.roleTypes.add(roleType);
     }
 
-    public void addRoleTypes(Set<RoleType> roleTypes) {
+    public void addRoleTypes(List<RoleType> roleTypes) {
         this.roleTypes.addAll(roleTypes);
     }
 
