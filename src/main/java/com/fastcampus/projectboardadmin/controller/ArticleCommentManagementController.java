@@ -18,7 +18,7 @@ public class ArticleCommentManagementController {
         , Model model
     ) {
         model.addAttribute("pageUrl", "/management/article-comments");
-        return "management/articleComments";
+        return "management/article-comments";
     }
 
 }
