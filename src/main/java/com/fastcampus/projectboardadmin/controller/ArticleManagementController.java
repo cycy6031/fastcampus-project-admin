@@ -17,6 +17,7 @@ public class ArticleManagementController {
         @PageableDefault(size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable
         , Model model
     ) {
+        model.addAttribute("pageUrl", "/management/articles");
         return "management/articles";
     }
 

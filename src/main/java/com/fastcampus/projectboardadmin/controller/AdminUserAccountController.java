@@ -17,6 +17,7 @@ public class AdminUserAccountController {
         @PageableDefault(size = 10, sort = "createdAt", direction = Direction.DESC) Pageable pageable
         , Model model
     ) {
+        model.addAttribute("pageUrl", "/admin/members");
         return "admin/members";
     }
 }
