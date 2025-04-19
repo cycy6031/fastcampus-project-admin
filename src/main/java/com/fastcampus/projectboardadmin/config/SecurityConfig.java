@@ -1,5 +1,7 @@
 package com.fastcampus.projectboardadmin.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,6 +31,7 @@ public class SecurityConfig {
         http
             .logout((logout) -> logout
                     .logoutSuccessUrl("/"));
+        http.oauth2Login(withDefaults());
             /*.authorizeHttpRequests(auth -> auth
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(
