@@ -18,7 +18,7 @@ public class UserAccountManagementController {
         , Model model
     ) {
         model.addAttribute("pageUrl", "/management/user-accounts");
-        return "management/userAccounts";
+        return "management/user-accounts";
     }
 
 }
