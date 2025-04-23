@@ -1,4 +1,4 @@
-package com.fastcampus.projectboardadmin.dto.properties;
+package com.fastcampus.projectboardadmin.dto.response;
 
 import com.fastcampus.projectboardadmin.dto.ArticleDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
