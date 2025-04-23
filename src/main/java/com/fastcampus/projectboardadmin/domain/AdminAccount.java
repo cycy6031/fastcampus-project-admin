@@ -8,7 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
-import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +24,7 @@ import lombok.ToString;
     @Index(columnList = "createdBy")
 })
 @Entity
-public class UserAccount extends AuditingField {
+public class AdminAccount extends AuditingField {
     @Id
     @Column(length = 50)
     private String userId;
@@ -41,9 +40,9 @@ public class UserAccount extends AuditingField {
     @Setter private String memo;
 
 
-    protected UserAccount() {}
+    protected AdminAccount() {}
 
-    private UserAccount(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
+    private AdminAccount(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.roleTypes = roleTypes;
@@ -53,12 +52,12 @@ public class UserAccount extends AuditingField {
         this.createdBy = createdBy;
     }
 
-    public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo) {
-        return new UserAccount(userId, userPassword, roleTypes, email, nickname, memo, null);
+    public static AdminAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo) {
+        return new AdminAccount(userId, userPassword, roleTypes, email, nickname, memo, null);
     }
 
-    public static UserAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
-        return new UserAccount(userId, userPassword, roleTypes, email, nickname, memo, createdBy);
+    public static AdminAccount of(String userId, String userPassword, Set<RoleType> roleTypes, String email, String nickname, String memo, String createdBy) {
+        return new AdminAccount(userId, userPassword, roleTypes, email, nickname, memo, createdBy);
     }
 
     public void addRoleType(RoleType roleType) {
@@ -76,7 +75,7 @@ public class UserAccount extends AuditingField {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserAccount that)) return false;
+        if (!(o instanceof AdminAccount that)) return false;
         return this.getUserId() != null && this.getUserId().equals(that.getUserId());
     }
 
