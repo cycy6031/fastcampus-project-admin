@@ -1,5 +1,6 @@
 package com.fastcampus.projectboardadmin.service;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -8,8 +9,9 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import com.fastcampus.projectboardadmin.domain.constant.RoleType;
 import com.fastcampus.projectboardadmin.dto.ArticleDto;
 import com.fastcampus.projectboardadmin.dto.UserAccountDto;
-import com.fastcampus.projectboardadmin.dto.response.ArticleClientResponse;
 import com.fastcampus.projectboardadmin.dto.properties.ProjectProperties;
+import com.fastcampus.projectboardadmin.dto.response.ArticleClientResponse;
+import com.fastcampus.projectboardadmin.dto.response.UserAccountResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,8 +30,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.client.MockRestServiceServer;
 
 @ActiveProfiles("test")
-@DisplayName("비지니스 로직 - 게시글 관리")
-class ArticleManagementServiceTest {
+@DisplayName("비지니스 로직 - 회원 관리")
+class UserAccountManagementServiceTest {
 
     //@Disabled("실제 API호출 결과 관찰용이므로 평상시엔 비활성화")
     @DisplayName("실제 API 호출 테스트")
@@ -37,10 +39,10 @@ class ArticleManagementServiceTest {
     @Nested
     class RealApiTest{
 
-        private final ArticleManagementService sut;
+        private final UserAccountManagementService sut;
 
         @Autowired
-        public RealApiTest(ArticleManagementService sut) {
+        public RealApiTest(UserAccountManagementService sut) {
             this.sut = sut;
         }
 
@@ -50,7 +52,7 @@ class ArticleManagementServiceTest {
             // Given
 
             // When
-            List<ArticleDto> result = sut.getArticles();
+            List<UserAccountDto> result = sut.getUserAccounts();
 
             // Then
             System.out.println(result.stream().findFirst());
@@ -61,18 +63,18 @@ class ArticleManagementServiceTest {
     @DisplayName("API mocking 테스트")
     @EnableConfigurationProperties(ProjectProperties.class)
     @AutoConfigureWebClient(registerRestTemplate = true)
-    @RestClientTest(ArticleManagementService.class)
+    @RestClientTest(UserAccountManagementService.class)
     @Nested
     class RestTemplateTest{
 
-        private final ArticleManagementService sut;
+        private final UserAccountManagementService sut;
 
         private final ProjectProperties projectProperties;
         private final MockRestServiceServer server;
         private final ObjectMapper mapper;
 
         @Autowired
-        public RestTemplateTest(ArticleManagementService sut, ProjectProperties projectProperties,
+        public RestTemplateTest(UserAccountManagementService sut, ProjectProperties projectProperties,
             MockRestServiceServer server, ObjectMapper mapper) {
             this.sut = sut;
             this.projectProperties = projectProperties;
@@ -80,85 +82,69 @@ class ArticleManagementServiceTest {
             this.mapper = mapper;
         }
 
-        @DisplayName("게시글 목록 API를 호출하면, 게시글들을 가져온다.")
+        @DisplayName("회원 목록 API를 호출하면, 회원들을 가져온다.")
         @Test
-        void givenNothing_whenCallingArticlesApi_thenReturnsArticleList() throws Exception{
+        void givenNothing_whenCallingUserAccountApi_thenReturnsUserAccountList() throws Exception{
             // Given
-            ArticleDto expectedArticle = createArticleDto("제목", "글");
-            ArticleClientResponse expectedResponse = ArticleClientResponse.of(List.of(expectedArticle));
+            UserAccountDto expectedUserAccount = createUserAccountDto();
+            UserAccountResponse expectedResponse = UserAccountResponse.of(List.of(expectedUserAccount));
             server
-                .expect(requestTo(projectProperties.board().url() + "/api/articles?size=10000"))
+                .expect(requestTo(projectProperties.board().url() + "/api/userAccount?size=10000"))
                 .andRespond(withSuccess(
                     mapper.writeValueAsString(expectedResponse),
                     MediaType.APPLICATION_JSON
                 ));
 
             // When
-            List<ArticleDto> result = sut.getArticles();
+            List<UserAccountDto> result = sut.getUserAccounts();
 
             // Then
             assertThat(result).first()
-                .hasFieldOrPropertyWithValue("id", expectedArticle.id())
-                .hasFieldOrPropertyWithValue("title", expectedArticle.title())
-                .hasFieldOrPropertyWithValue("content", expectedArticle.content())
-                .hasFieldOrPropertyWithValue("userAccount.nickname", expectedArticle.userAccount().nickname());
+                .hasFieldOrPropertyWithValue("userId", expectedUserAccount.userId())
+                .hasFieldOrPropertyWithValue("email", expectedUserAccount.email())
+                .hasFieldOrPropertyWithValue("nickname", expectedUserAccount.nickname());
             server.verify();
         }
 
-        @DisplayName("게시글 API를 호출하면, 게시글을 가져온다.")
+        @DisplayName("회원 API를 호출하면, 회원을 가져온다.")
         @Test
-        void givenArticleId_whenCallingArticlesApi_thenReturnsArticle() throws Exception{
+        void givenUserId_whenCallingUserAccountApi_thenReturnsUserAccount() throws Exception{
             // Given
-            Long articleId = 1L;
-            ArticleDto expectedArticle = createArticleDto("제목", "글");
+            String userId = "bomi";
+            UserAccountDto expectedUserAccount = createUserAccountDto();
             server
-                .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId))
+                .expect(requestTo(projectProperties.board().url() + "/api/userAccount/" + userId))
                 .andRespond(withSuccess(
-                    mapper.writeValueAsString(expectedArticle),
+                    mapper.writeValueAsString(expectedUserAccount),
                     MediaType.APPLICATION_JSON
                 ));
 
             // When
-            ArticleDto result = sut.getArticle(articleId);
+            UserAccountDto result = sut.getUserAccount(userId);
 
             // Then
             assertThat(result)
-                .hasFieldOrPropertyWithValue("id", expectedArticle.id())
-                .hasFieldOrPropertyWithValue("title", expectedArticle.title())
-                .hasFieldOrPropertyWithValue("content", expectedArticle.content())
-                .hasFieldOrPropertyWithValue("userAccount.nickname", expectedArticle.userAccount().nickname());
+                .hasFieldOrPropertyWithValue("userId", expectedUserAccount.userId())
+                .hasFieldOrPropertyWithValue("email", expectedUserAccount.email())
+                .hasFieldOrPropertyWithValue("nickname", expectedUserAccount.nickname());
             server.verify();
         }
 
-        @DisplayName("게시글 ID와 함께 게시글 삭제 API를 호출하면, 게시글을 삭제한다.")
+        @DisplayName("회원 ID와 함께 회원 삭제 API를 호출하면, 회원을 삭제한다.")
         @Test
-        void givenArticleId_whenCallingDeleteArticlesApi_thenDeletesAnArticle() throws Exception{
+        void givenUserId_whenCallingDeleteUserAccountApi_thenDeletesAnUserAccount() throws Exception{
             // Given
-            Long articleId = 1L;
+            String userId = "bomi";
             server
-                .expect(requestTo(projectProperties.board().url() + "/api/articles/" + articleId))
+                .expect(requestTo(projectProperties.board().url() + "/api/userAccount/" + userId))
                 .andExpect(method(HttpMethod.DELETE))
                 .andRespond(withSuccess());
 
             // When
-            sut.deleteArticle(articleId);
+            sut.deleteUserAccount(userId);
 
             // Then
             server.verify();
-        }
-
-        private ArticleDto createArticleDto(String title, String content) {
-            return ArticleDto.of(
-                1L,
-                createUserAccountDto(),
-                title,
-                content,
-                null,
-                LocalDateTime.now(),
-                "bomi",
-                LocalDateTime.now(),
-                "bomi"
-            );
         }
 
         private UserAccountDto createUserAccountDto() {
@@ -171,5 +157,5 @@ class ArticleManagementServiceTest {
         }
 
     }
-  
+
 }
