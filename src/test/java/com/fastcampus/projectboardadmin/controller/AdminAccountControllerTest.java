@@ -1,6 +1,5 @@
 package com.fastcampus.projectboardadmin.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,12 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @DisplayName("View 컨트롤러 - 관리자 유저 관리")
 @Import(SecurityConfig.class)
-@WebMvcTest(controllers = AdminUserAccountController.class)
-class AdminUserAccountControllerTest {
+@WebMvcTest(controllers = AdminAccountController.class)
+class AdminAccountControllerTest {
 
     private final MockMvc mvc;
 
-    public AdminUserAccountControllerTest(@Autowired MockMvc mvc) {
+    public AdminAccountControllerTest(@Autowired MockMvc mvc) {
         this.mvc = mvc;
     }
 
