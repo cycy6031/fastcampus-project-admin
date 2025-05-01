@@ -11,13 +11,13 @@ public record AdminAccountResponse(
     String email,
     String nickname,
     String memo,
-    LocalDateTime createAt,
-    String createBy
+    LocalDateTime createdAt,
+    String createdBy
 ) {
 
     public static AdminAccountResponse of(String userId, String roleTypes, String email,
-        String nickname, String memo, LocalDateTime createAt, String createBy) {
-        return new AdminAccountResponse(userId, roleTypes, email, nickname, memo, createAt,
+        String nickname, String memo, LocalDateTime createdAt, String createBy) {
+        return new AdminAccountResponse(userId, roleTypes, email, nickname, memo, createdAt,
             createBy);
     }
 

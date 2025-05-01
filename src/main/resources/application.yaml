@@ -50,8 +50,8 @@ server.port: 8081
 
 project.board.url: http://localhost:8080
 
----
+#---
 
-spring:
-  config.activate.on-profile: test
-  datasource.url: jdbc:h2:mem:testdb
+#spring:
+  #config.activate.on-profile: test
+  #datasource.url: jdbc:h2:mem:testdb
