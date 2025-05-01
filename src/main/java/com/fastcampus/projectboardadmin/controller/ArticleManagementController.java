@@ -28,6 +28,7 @@ public class ArticleManagementController {
             "articles",
             articleManagementService.getArticles().stream().map(ArticleResponse::withoutContent).toList()
         );
+        model.addAttribute("pageUrl", "/management/articles");
         return "management/articles";
     }
 

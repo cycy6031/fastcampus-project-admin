@@ -18,16 +18,16 @@ public record ArticleCommentClientResponse(
         );
     }
 
-    public static ArticleCommentClientResponse of(List<ArticleCommentDto> comments){
+    public static ArticleCommentClientResponse of(List<ArticleCommentDto> articleComments){
         return new ArticleCommentClientResponse(
-            new ArticleCommentClientResponse.Embedded(comments),
-            new ArticleCommentClientResponse.Page(comments.size(), comments.size(), 1, 0)
+            new ArticleCommentClientResponse.Embedded(articleComments),
+            new ArticleCommentClientResponse.Page(articleComments.size(), articleComments.size(), 1, 0)
         );
     }
 
-    public List<ArticleCommentDto> articles() { return this.embedded.comments(); }
+    public List<ArticleCommentDto> articleComments() { return this.embedded.articleComments(); }
 
-    public record Embedded(List<ArticleCommentDto> comments){}
+    public record Embedded(List<ArticleCommentDto> articleComments){}
 
     public record Page(
         int size,
