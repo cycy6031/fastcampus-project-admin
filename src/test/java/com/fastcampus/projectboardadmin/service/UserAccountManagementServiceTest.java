@@ -11,7 +11,7 @@ import com.fastcampus.projectboardadmin.dto.ArticleDto;
 import com.fastcampus.projectboardadmin.dto.UserAccountDto;
 import com.fastcampus.projectboardadmin.dto.properties.ProjectProperties;
 import com.fastcampus.projectboardadmin.dto.response.ArticleClientResponse;
-import com.fastcampus.projectboardadmin.dto.response.UserAccountResponse;
+import com.fastcampus.projectboardadmin.dto.response.UserAccountClientResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -87,9 +87,9 @@ class UserAccountManagementServiceTest {
         void givenNothing_whenCallingUserAccountApi_thenReturnsUserAccountList() throws Exception{
             // Given
             UserAccountDto expectedUserAccount = createUserAccountDto();
-            UserAccountResponse expectedResponse = UserAccountResponse.of(List.of(expectedUserAccount));
+            UserAccountClientResponse expectedResponse = UserAccountClientResponse.of(List.of(expectedUserAccount));
             server
-                .expect(requestTo(projectProperties.board().url() + "/api/userAccount?size=10000"))
+                .expect(requestTo(projectProperties.board().url() + "/api/userAccounts?size=10000"))
                 .andRespond(withSuccess(
                     mapper.writeValueAsString(expectedResponse),
                     MediaType.APPLICATION_JSON
@@ -113,7 +113,7 @@ class UserAccountManagementServiceTest {
             String userId = "bomi";
             UserAccountDto expectedUserAccount = createUserAccountDto();
             server
-                .expect(requestTo(projectProperties.board().url() + "/api/userAccount/" + userId))
+                .expect(requestTo(projectProperties.board().url() + "/api/userAccounts/" + userId))
                 .andRespond(withSuccess(
                     mapper.writeValueAsString(expectedUserAccount),
                     MediaType.APPLICATION_JSON
@@ -136,7 +136,7 @@ class UserAccountManagementServiceTest {
             // Given
             String userId = "bomi";
             server
-                .expect(requestTo(projectProperties.board().url() + "/api/userAccount/" + userId))
+                .expect(requestTo(projectProperties.board().url() + "/api/userAccounts/" + userId))
                 .andExpect(method(HttpMethod.DELETE))
                 .andRespond(withSuccess());
 

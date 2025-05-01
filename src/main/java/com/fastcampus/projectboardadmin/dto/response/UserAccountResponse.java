@@ -2,35 +2,31 @@ package com.fastcampus.projectboardadmin.dto.response;
 
 import com.fastcampus.projectboardadmin.dto.UserAccountDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record UserAccountResponse(
-    @JsonProperty("_embedded") Embedded embedded,
-    @JsonProperty("page") Page page
+    String userId,
+    String email,
+    String nickname,
+    String memo,
+    LocalDateTime createdAt,
+    String createdBy
 ) {
 
-    public static UserAccountResponse empty(){
-        return new UserAccountResponse(
-            new UserAccountResponse.Embedded(List.of()),
-            new UserAccountResponse.Page(1, 0, 1, 0)
+    public static UserAccountResponse of(String userId, String email, String nickname, String memo, LocalDateTime createdAt, String createdBy) {
+        return new UserAccountResponse(userId, email, nickname, memo, createdAt, createdBy);
+    }
+
+    public static UserAccountResponse from(UserAccountDto dto) {
+        return UserAccountResponse.of(
+            dto.userId(),
+            dto.email(),
+            dto.nickname(),
+            dto.memo(),
+            dto.createdAt(),
+            dto.createdBy()
         );
     }
 
-    public static UserAccountResponse of(List<UserAccountDto> userAccounts){
-        return new UserAccountResponse(
-            new UserAccountResponse.Embedded(userAccounts),
-            new UserAccountResponse.Page(userAccounts.size(), userAccounts.size(), 1, 0)
-        );
-    }
-
-    public List<UserAccountDto> userAccounts() { return this.embedded.userAccounts(); }
-
-    public record Embedded(List<UserAccountDto> userAccounts){}
-
-    public record Page(
-        int size,
-        long totalElements,
-        int totalPages,
-        int number
-    ) {}
 }

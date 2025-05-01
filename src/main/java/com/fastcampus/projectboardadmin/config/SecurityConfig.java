@@ -48,7 +48,8 @@ public class SecurityConfig {
                         AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/**")
                     ).hasAnyRole(rolesAboveManager)
                     .anyRequest()
-                    .authenticated()
+                    //.authenticated()
+                    .permitAll()
             );
         http
             .formLogin(withDefaults());
