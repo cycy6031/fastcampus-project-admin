@@ -27,7 +27,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.client.MockRestServiceServer;
 
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 @DisplayName("비지니스 로직 - 게시글 관리")
 class ArticleManagementServiceTest {
 
