@@ -4,6 +4,7 @@ import com.fastcampus.projectboardadmin.dto.response.AdminAccountResponse;
 import com.fastcampus.projectboardadmin.repository.AdminAccountRepository;
 import com.fastcampus.projectboardadmin.service.AdminAccountService;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -18,14 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@RequestMapping("/admin/members")
+@RequiredArgsConstructor
 @Controller
 public class AdminAccountController {
 
-    @Autowired
-    private AdminAccountService adminAccountService;
+    private final AdminAccountService adminAccountService;
 
-    @GetMapping
+    @GetMapping("/admin/members")
     public String members(Model model) {
         return "admin/members";
     }
